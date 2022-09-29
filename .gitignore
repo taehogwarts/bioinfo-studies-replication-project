@@ -130,3 +130,6 @@ dmypy.json
 
 # Pretrained model
 pretrained/
+
+# Mac file
+.DS_Store
