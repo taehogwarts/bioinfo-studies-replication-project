@@ -4,6 +4,10 @@
 - 목적: 신경망 NLP 모델을 활용한 Genetic Sequence 연구의 Replication
 - 주제: Identifying enhancers and their strengths
 
+## Dataset
+- Benchmark(train) & Independent Testing(test) Datasets from: https://academic.oup.com/bioinformatics/article/32/3/362/1744331
+- Text files from: https://github.com/feng-123/Enhancer-LSTMAtt/
+
 ## Neural NLP Models to Replicate
 - iEnhancer-CNN: https://ieeexplore.ieee.org/abstract/document/9044822
 - Enhancer-LSTMAtt: https://www.mdpi.com/2218-273X/12/7/995
