@@ -116,7 +116,7 @@ def tokenizeSeqs(dataset): ## 데이터셋을 Tokenize
         token_list = tokenizer(sequence)
         tokenset_list.append(token_list)
 
-    tokenset_array = np.array(tokenset_list)
+    tokenset_array = np.array(tokenset_list) ### array화 - n131 참조
     return tokenset_array
 
 
@@ -180,8 +180,72 @@ t2_end = process_time()
 print("Elapsed time of loading and preprocessing data:", t2_end - t2_start)
 
  
- 
 
-# STAGE 4. Loading the Architecture of CNN
+
+
+# STAGE 4. Baseline Model (Chance Level)
+
+### 훈련세트, 테스트세트 모두 클래스비율이 0.5로 동일하게 맞춰져 있음
+### Chance Level = 0.5
+
+
+
+
+
+# STAGE 5. Loading the Model Architecture of iEnhancer-CNN
+
+import tensorflow as tf
+from tensorflow.keras import Input, Model
+from tensorflow.keras.layers import Conv1D, Dropout, Flatten, Dense, Activation
+
+input = Input(shape=(198,100))
+out = Conv1D(8, 7, strides=1, padding='same')(input)
+out = Activation('relu')(out)
+out = Conv1D(8, 7, strides=1, padding='same')(out)
+out = Activation('relu')(out)
+out = Dropout(0.5)(out)
+out = Flatten()(out)
+output = Dense(1, activation='sigmoid')(out)
+
+model = Model(inputs=input, outputs=output)
+
+model.compile(loss='binary_crossentropy',
+              optimizer=tf.keras.optimizers.Adam(learning_rate=8*1e-4),
+              metrics=['accuracy'])
+
+### 참고) 크로스엔트로피 손실함수 'from_logits' 파라미터 관련
+### https://stackoverflow.com/questions/61233425/what-should-i-use-as-target-vector-when-i-use-binarycrossentropyfrom-logits-tru
+
+### 층별 shape 확인
+# tf.keras.utils.plot_model(model, show_shapes=True)
+
+
+
+### 학습해 봄
+# t3_start = process_time()
+
+# model.fit(X_train_embedded_pn, y_train_pn, batch_size=32, epochs=50, verbose=1)
+# model.evaluate(X_test_embedded_pn, y_test_pn)
+
+# t3_end = process_time()
+# print("Elapsed time of loading and training the model:", t3_end - t3_start)
+
+
+
+# STAGE 6. Fitting the Model by RandomizedSearchCV
+
+## Early Stopping 지정
+# checkpoint_filepath = "FMbest.hdf5"
+# early_stop = tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=10, verbose=1)
+# save_best = tf.keras.callbacks.ModelCheckpoint(
+#     filepath=checkpoint_filepath, monitor='val_loss', verbose=1, save_best_only=True,
+#     save_weights_only=True, mode='auto', save_freq='epoch', options=None)
+
+# ## 논문에서 튜닝한 하이퍼파라미터 중 convolutional layers의 filter 수, 사이즈, 드롭아웃 비율을 cross-validation
+# filter_number = [4, 8, 16, 32]
+# filter_size = [3, 5, 7, 9]
+# dropout_rate = [0.45, 0.5, 0.55]
+
+
 
 
