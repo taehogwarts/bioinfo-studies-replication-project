@@ -5,7 +5,7 @@
 - 주제: Identifying enhancers and their strengths
 
 ## Dataset
-- Benchmark(train) & Independent Testing(test) Datasets from: https://academic.oup.com/bioinformatics/article/32/3/362/1744331
+- Benchmark(train) & independent testing(test) datasets originally from: https://academic.oup.com/bioinformatics/article/32/3/362/1744331
 - Text files from: https://github.com/feng-123/Enhancer-LSTMAtt/
 
 ## Neural NLP Models to Replicate
